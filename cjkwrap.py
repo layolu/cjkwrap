@@ -36,17 +36,19 @@ if PY3:
 else:
     text_type = unicode
 
+include_ambiguous = False
 
-def is_wide(char, ambiguous=False):
-    """is_wide(unicode_char, boolean) -> boolean
+def is_wide(char):
+    """is_wide(unicode_char) -> boolean
 
     Return True if unicode_char is Fullwidth or Wide, False otherwise.
     Fullwidth and Wide CJK chars are double-width.
-    If 'ambiguous' is True, then the chars in East Asian Ambiguous (A)
-    is also considered Fullwidth (useful in East Asian context).
+    If 'cjkwrap.include_ambiguous' is set to True, then the chars in 
+    East Asian Ambiguous (A) is also considered Fullwidth 
+    (useful in East Asian context).
     cf. UAX #11, ED7 http://www.unicode.org/reports/tr11/#ED7
     """
-    east_asian_widths = ('F', 'W', 'A') if ambiguous else ('F', 'W')
+    east_asian_widths = ('F', 'W', 'A') if include_ambiguous else ('F', 'W')
     return unicodedata.east_asian_width(char) in east_asian_widths
 
 

@@ -37,13 +37,17 @@ else:
     text_type = unicode
 
 
-def is_wide(char):
-    """is_wide(unicode_char) -> boolean
+def is_wide(char, ambiguous=False):
+    """is_wide(unicode_char, boolean) -> boolean
 
     Return True if unicode_char is Fullwidth or Wide, False otherwise.
     Fullwidth and Wide CJK chars are double-width.
+    If 'ambiguous' is True, then the chars in East Asian Ambiguous (A)
+    is also considered Fullwidth (useful in East Asian context).
+    cf. UAX #11, ED7 http://www.unicode.org/reports/tr11/#ED7
     """
-    return unicodedata.east_asian_width(char) in ('F', 'W')
+    east_asian_widths = ('F', 'W', 'A') if ambiguous else ('F', 'W')
+    return unicodedata.east_asian_width(char) in east_asian_widths
 
 
 def cjklen(text):
